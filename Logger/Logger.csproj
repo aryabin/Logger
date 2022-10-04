@@ -2,7 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>aryabin-logger</PackageId>
+    <Title>Logger</Title>
+    <Authors>aryabin</Authors>
+    <RepositoryUrl>https://github.com/aryabin/Logger.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/aryabin/Logger</PackageProjectUrl>
+    <Description>Lightwaight and ease to use logger for .Net</Description>
+    <PackageTags>#Logger;#DotNet;.Net;Logger;File Logger;</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="6.0.6" />
