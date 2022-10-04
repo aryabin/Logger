@@ -1,47 +1,49 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Logger
 {
-    internal class LogMessageHandler : IDisposable
+    internal class LogMessageHandler
     {
-        private volatile static bool _started = false;
-
-        private Thread _messageHandlerThread;
+        private Task _messageHandlerTask;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public LogMessageHandler(LogMessageQueue queue, LogFileManager fileManager, int delay)
         {
-            _messageHandlerThread = new Thread(() => Run(delay, queue, fileManager));
-            _messageHandlerThread.Name = "MessageHandlerThread";
-            _messageHandlerThread.IsBackground = true;
+            _cancellationTokenSource = new CancellationTokenSource();
+            _messageHandlerTask = new Task(() => Run(delay, queue, fileManager), _cancellationTokenSource.Token, TaskCreationOptions.LongRunning);
         }
 
         public void Start()
         {
-            _started = true;
-            _messageHandlerThread.Start();
+            _messageHandlerTask.Start();
         }
 
-        public void Stop()
+        private void Stop()
         {
-            _started = false;
+            _cancellationTokenSource.Cancel();
+            Task.WaitAll(new[] { _messageHandlerTask });
         }
 
-        private static void Run(int delay, LogMessageQueue queue, LogFileManager fileManager)
+        private async void Run(int delay, LogMessageQueue queue, LogFileManager fileManager)
         {
-            while (_started)
+            try
             {
-                Thread.Sleep(delay);
+                await Task.Delay(delay);
                 while (!queue.IsEmpty)
                 {
                     fileManager.WriteMessageToFile(queue.Dequeue());
                 }
+                _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                Run(delay, queue, fileManager);
             }
+            catch (OperationCanceledException) { }
         }
 
         public void Dispose()
         {
-            _started = false;
+            Stop();
         }
     }
 }

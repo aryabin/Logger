@@ -43,18 +43,22 @@ namespace Logger
             }
         }
 
+        static Logger()
+        {
+            AppDomain.CurrentDomain.DomainUnload += (sender, e) => Cleanup();
+        }
+
         public static ILogger GetLogger(object obj)
         {
             return new Logger(obj);
         }
 
-        private static bool IsInitialized
-        {
-            get { return _settings != null; }
-        }
         private Logger()
         {
-            Settings = Settings != null ? Settings : new Settings();
+            if (Settings == null)
+            {
+                Settings = new Settings();
+            }
             _className = String.Empty;
         }
 
@@ -77,13 +81,14 @@ namespace Logger
 
         private static void Cleanup()
         {
+            _settings = null;
             FileManager?.Dispose();
             MessageHandler?.Dispose();
         }
 
         public void Trace(LogLevel level, string methodName, string formatString, params object[] args)
         {
-            if (!IsInitialized)
+            if (_settings == null)
             {
                 throw new NullReferenceException("Logger should be initialized before using.");
             }
