@@ -69,7 +69,7 @@ namespace Logger
                 return;
             }
 
-            if (obj is string && String.IsNullOrEmpty((string)obj))
+            if (obj is string && !String.IsNullOrEmpty((string)obj))
             {
                 _className = (string)obj;
             }
