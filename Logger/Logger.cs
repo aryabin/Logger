@@ -38,7 +38,7 @@ namespace Logger
                     MessageHandler.Start();
 
                     Logger logger = new Logger(typeof(Logger).Name);
-                    logger.Debug(Message.LOGGER_INITIALIZED_TEMPLATE, _settings);
+                    logger.Trace(Message.LOGGER_INITIALIZED_TEMPLATE, _settings);
                 }
             }
         }
