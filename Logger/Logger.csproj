@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/aryabin/Logger</PackageProjectUrl>
     <Description>Lightwaight and ease to use logger for .Net</Description>
     <PackageTags>#Logger;#DotNet;.Net;Logger;File Logger;</PackageTags>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,5 +25,4 @@
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="6.0.6" />
   </ItemGroup>
-
 </Project>

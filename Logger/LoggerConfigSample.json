@@ -1,0 +1,18 @@
+{
+  "Level": 3,
+  "File": {
+    "Path": "<Location of your application>\\<Name of your application>.log",
+    "Size": 53687091200,
+    "Count": 5,
+    "BufferSize": 65536
+  },
+  "Message": {
+    "DateTimeFormat": "yyyy-MM-dd HH:mm:ss.fff",
+    "Delimeter": "\t",
+    "MethodEnterMessage": "+",
+    "MethodExitMessage": "-"
+  },
+  "Handler": {
+    "Delay": 500
+  }
+}

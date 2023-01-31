@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Logger
 {
-    internal class LogMessageHandler
+    internal class LogMessageHandler : IDisposable
     {
         private Task _messageHandlerTask;
         private CancellationTokenSource _cancellationTokenSource;

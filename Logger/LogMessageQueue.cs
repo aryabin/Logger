@@ -1,37 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Logger
 {
     internal class LogMessageQueue
     {
-        private object _lock = new object();
-        private Queue<string> _messageQueue = new Queue<string>();
+        private ConcurrentQueue<string> _messageQueue = new ConcurrentQueue<string>();
 
         public bool IsEmpty
         {
-            get
-            {
-                lock (_lock)
-                {
-                    return _messageQueue.Count == 0;
-                }
-            }
+            get { return _messageQueue.IsEmpty; }
         }
 
         public void Enqueue(string message)
         {
-            lock (_lock)
-            {
-                _messageQueue.Enqueue(message);
-            }
+            _messageQueue.Enqueue(message);
         }
 
         public string Dequeue()
         {
-            lock (_lock)
-            {
-                return _messageQueue.Dequeue();
-            }
+            _messageQueue.TryDequeue(out string message);
+            return message;
         }
     }
 }

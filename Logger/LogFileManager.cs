@@ -30,7 +30,7 @@ namespace Logger
             _extension = Path.GetExtension(path);
             _maxSize = maxSize;
             _fileCount = count;
-            FilePath = Path.Combine(_location, _name + "_0" + _extension);
+            FilePath = Path.Combine(_location, $"{_name}_0{_extension}");
             _fileInfo = new FileInfo(FilePath);
             _writer = new StreamWriter(FilePath, true, Encoding.UTF8, BUFFER_SIZE);
         }
@@ -52,7 +52,7 @@ namespace Logger
                     _fileInfo.Refresh();
                     return _fileInfo.Length > _maxSize;
                 }
-                catch (FileNotFoundException)
+                catch (Exception)
                 {
                     return false;
                 }
