@@ -44,5 +44,12 @@ ILogger Log = this.GetLogger();
 }
 ```
 
+
+## Contacts
+Please contact [Alexander Ryabinin](mailto:ryabinin_alex@mail.ru?subject=[GitHub]%20Feedback%20or%suggestion)
+if you would share any feedback or suggestion. I would be appreciate it.
+
+Telegram: https://t.me/ryabinin_alex
+
 ## License
 Logger is licensed under the MIT license.
