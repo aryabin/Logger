@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Logger
 {
-    internal class LogFileManager : IDisposable
+    internal sealed class LogFileManager : IDisposable
     {
         private readonly int BUFFER_SIZE = 65536;
 

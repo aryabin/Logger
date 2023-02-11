@@ -2,7 +2,7 @@
 
 namespace Logger.Configuration
 {
-    public class Settings
+    public sealed class Settings
     {
         public LogLevel Level { get; set; } = LogLevel.Debug;
         public FileSettings File { get; set; }

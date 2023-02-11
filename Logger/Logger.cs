@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Logger
 {
-    public class Logger : ILogger
+    public sealed class Logger : ILogger
     {
         private static readonly object Lock = new object();
 

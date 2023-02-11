@@ -2,7 +2,7 @@
 
 namespace Logger.Configuration
 {
-    public class MessageSettings
+    public sealed class MessageSettings
     {
         public string DateTimeFormat { get; set; } = Constant.DateTimeFormat;
         public string Delimeter { get; set; } = Constant.Tab;

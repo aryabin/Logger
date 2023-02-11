@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Logger.Configuration
 {
-    public class FileSettings
+    public sealed class FileSettings
     {
         public string Path { get; set; } = Process.GetCurrentProcess().MainModule.FileName + Constant.LogExtension;
         public long Size { get; set; } = 53687091200;

@@ -2,7 +2,7 @@
 
 namespace Logger
 {
-    internal class LogMessageQueue
+    internal sealed class LogMessageQueue
     {
         private ConcurrentQueue<string> _messageQueue = new ConcurrentQueue<string>();
 
