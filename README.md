@@ -16,9 +16,8 @@ ILogger Log = Logger.Logger.GetLogger(this);
 ILogger Log = Logger.Logger.GetLogger(anyObject);
 ```
 
-This second way also could be simplified using Logger.Extensions namespace
+This second way also could be simplified
 ```
-using Logger.Extensions;
 ILogger Log = anyObject.GetLogger();
 ILogger Log = this.GetLogger();
 ```
