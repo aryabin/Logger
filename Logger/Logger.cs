@@ -38,7 +38,7 @@ namespace Logger
                     MessageHandler.Start();
 
                     Logger logger = new Logger(typeof(Logger).Name);
-                    logger.Trace(Message.LOGGER_INITIALIZED_TEMPLATE, _settings);
+                    logger.Trace(Message.LoggerInitializedTemplate, _settings);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace Logger
         {
             if (_settings == null)
             {
-                throw new NullReferenceException("Logger should be initialized before using.");
+                throw new NullReferenceException(Message.LoggerIsNotInitialized);
             }
 
             if (level > Settings.Level)
@@ -198,22 +198,22 @@ namespace Logger
 
         public void LogVariable(string methodName, string variableName, object variableValue)
         {
-            Debug(methodName, Message.VARIABLE_VALUE_TEMPLATE, variableName, variableValue.ToString());
+            Debug(methodName, Message.VariableValueTemplate, variableName, variableValue.ToString());
         }
 
         public void LogVariable(string variableName, object variableValue)
         {
-            Debug(Message.VARIABLE_VALUE_TEMPLATE, variableName, variableValue.ToString());
+            Debug(Message.VariableValueTemplate, variableName, variableValue.ToString());
         }
 
         public void LogVariableChanged(string methodName, string variableName, object oldVariableValue, object newVariableValue)
         {
-            Debug(methodName, Message.VARIABLE_VALUE_CHANGED_TEMPLATE, variableName, oldVariableValue.ToString(), newVariableValue.ToString());
+            Debug(methodName, Message.VariableValueChangedTemplate, variableName, oldVariableValue.ToString(), newVariableValue.ToString());
         }
 
         public void LogVariableChanged(string variableName, object oldVariableValue, object newVariableValue)
         {
-            Debug(Message.VARIABLE_VALUE_CHANGED_TEMPLATE, variableName, oldVariableValue.ToString(), newVariableValue.ToString());
+            Debug(Message.VariableValueChangedTemplate, variableName, oldVariableValue.ToString(), newVariableValue.ToString());
         }
     }
 }

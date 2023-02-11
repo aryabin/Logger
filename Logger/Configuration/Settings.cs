@@ -1,5 +1,4 @@
-﻿using System.Text.Encodings.Web;
-using System.Text.Json;
+﻿using System.Text;
 
 namespace Logger.Configuration
 {
@@ -27,13 +26,15 @@ namespace Logger.Configuration
 
         public override string ToString()
         {
-            JsonSerializerOptions options = new JsonSerializerOptions()
-            {
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                WriteIndented = true
-            };
-
-            return JsonSerializer.Serialize<Settings>(this, options);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(string.Empty);
+            stringBuilder.AppendLine("{");
+            stringBuilder.AppendLine($"\tLevel:{Level}");
+            stringBuilder.AppendLine($"\t{File}");
+            stringBuilder.AppendLine($"\t{Message}");
+            stringBuilder.AppendLine($"\t{Handler}");
+            stringBuilder.AppendLine("}");
+            return stringBuilder.ToString();
         }
     }
 }

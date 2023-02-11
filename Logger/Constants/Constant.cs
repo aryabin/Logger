@@ -2,14 +2,18 @@
 {
     public static class Constant
     {
+        internal const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+        internal const string LogExtension = ".log";
+        internal const string Tab = "\t";
+
         #region Method enter and exit logging
-        public static readonly string Entering = "Entering";
-        public static readonly string Leaving = "Leaving";
-        public static readonly string Minus = "-";
-        public static readonly string Plus = "+";
+        public const string Entering = "Entering";
+        public const string Leaving = "Leaving";
+        public const string Minus = "-";
+        public const string Plus = "+";
         #endregion
 
-        public static readonly string Redacted = "*REDACTED*";
-        public static readonly string ThreeStars = "***";
+        public const string Redacted = "*REDACTED*";
+        public const string ThreeStars = "***";
     }
 }
