@@ -1,4 +1,4 @@
-﻿namespace Logger
+﻿namespace Logger.Extensions
 {
     public static class ObjectExtensions
     {
