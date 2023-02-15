@@ -6,125 +6,55 @@ using System.Threading;
 
 namespace Logger
 {
-    public sealed class Logger : ILogger
+    internal abstract class BaseLogger : ILogger
     {
-        private static readonly object Lock = new object();
+        public string Name { get; set; }
+        public LogLevel Level { get; set; }
+        protected static Settings Settings { get; private set; }
 
-        private static LogMessageQueue MessageQueue;
-        private static LogMessageHandler MessageHandler;
-        private static LogFileManager FileManager;
-        private static Settings _settings;
-
-        private readonly string _className;
-
-        public static Settings Settings
+        protected BaseLogger()
         {
-            get { return _settings; }
-            set
-            {
-                lock (Lock)
-                {
-                    Cleanup();
-                    _settings = value;
-
-                    if (value is null)
-                    {
-                        return;
-                    }
-
-                    MessageQueue = new LogMessageQueue();
-                    FileManager = new LogFileManager(_settings.File.Path, _settings.File.Size, _settings.File.Count);
-                    MessageHandler = new LogMessageHandler(MessageQueue, FileManager, _settings.Handler.Delay);
-                    MessageHandler.Start();
-
-                    Logger logger = new Logger(typeof(Logger).Name);
-                    logger.Trace(Message.LoggerInitializedTemplate, _settings);
-                }
-            }
+            Settings = SettingsManager.GetSettings();
+            Level = Settings.Level;
+            Name = String.Empty;
         }
 
-        static Logger()
-        {
-            AppDomain.CurrentDomain.DomainUnload += (sender, e) => Cleanup();
-        }
-
-        public static ILogger GetLogger(object obj)
-        {
-            return new Logger(obj);
-        }
-
-        private Logger()
+        protected virtual string BuildLogMessage(LogLevel level, string methodName, string formatString, params object[] args)
         {
             if (Settings == null)
             {
-                Settings = new Settings();
-            }
-            _className = String.Empty;
-        }
-
-        private Logger(object obj) : this()
-        {
-            if (obj == null)
-            {
-                return;
-            }
-
-            if (obj is string && !String.IsNullOrEmpty((string)obj))
-            {
-                _className = (string)obj;
-            }
-            else
-            {
-                _className = obj.GetType().Name;
-            }
-        }
-
-        private static void Cleanup()
-        {
-            _settings = null;
-            FileManager?.Dispose();
-            MessageHandler?.Dispose();
-        }
-
-        public void Trace(LogLevel level, string methodName, string formatString, params object[] args)
-        {
-            if (_settings == null)
-            {
                 throw new NullReferenceException(Message.LoggerIsNotInitialized);
             }
-
-            if (level > Settings.Level)
-            {
-                return;
-            }
+            Settings settings = Settings;
 
             StringBuilder messageBuilder = new StringBuilder();
-            messageBuilder.Append(DateTime.Now.ToString(Settings.Message.DateTimeFormat));
-            messageBuilder.Append(Settings.Message.Delimeter);
+            messageBuilder.Append(DateTime.Now.ToString(settings.Message.DateTimeFormat));
+            messageBuilder.Append(settings.Message.Delimeter);
             messageBuilder.Append(Environment.CurrentManagedThreadId);
-            messageBuilder.Append(Settings.Message.Delimeter);
+            messageBuilder.Append(settings.Message.Delimeter);
             if (!String.IsNullOrEmpty(Thread.CurrentThread.Name))
             {
                 messageBuilder.Append(Thread.CurrentThread.Name);
-                messageBuilder.Append(Settings.Message.Delimeter);
+                messageBuilder.Append(settings.Message.Delimeter);
             }
             messageBuilder.Append(level.ToString().ToUpper());
-            messageBuilder.Append(Settings.Message.Delimeter);
-            if (!String.IsNullOrEmpty(_className))
+            messageBuilder.Append(settings.Message.Delimeter);
+            if (!String.IsNullOrEmpty(Name))
             {
-                messageBuilder.Append(_className);
-                messageBuilder.Append(Settings.Message.Delimeter);
+                messageBuilder.Append(Name);
+                messageBuilder.Append(settings.Message.Delimeter);
             }
             if (!String.IsNullOrEmpty(methodName))
             {
                 messageBuilder.Append(methodName);
-                messageBuilder.Append(Settings.Message.Delimeter);
+                messageBuilder.Append(settings.Message.Delimeter);
             }
-            messageBuilder.Append(Settings.Message.Delimeter);
+            messageBuilder.Append(settings.Message.Delimeter);
             messageBuilder.Append(String.Format(formatString, args));
-
-            MessageQueue.Enqueue(messageBuilder.ToString());
+            return messageBuilder.ToString();
         }
+
+        public abstract void Trace(LogLevel level, string methodName, string formatString, params object[] args);
 
         public void Trace(LogLevel level, string formatString, params object[] args)
         {

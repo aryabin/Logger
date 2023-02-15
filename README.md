@@ -20,22 +20,55 @@ Please let me know if you are interesting in version for .Net Standard 2.1
 
 ## How to initialize
 There are two ways to initialize Logger.
-Initialization using custom string. In this case Logger's name will be equal to used string.
+
+### Use static class LoggerManager
 ```
-ILogger Log = Logger.Logger.GetLogger("ConsoleAppDotNetSample");
+// Default logger with custom name
+ILogger Log = LoggerManager.GetLogger("LoggerName");
+
+// Default logger with name equel to type of obgect passed as parameter
+ILogger Log = LoggerManager.GetLogger(myObject);
+
+// Default logger with custom name and custom level
+ILogger Log = LoggerManager.GetLoggerBuilder().SetName("LoggerName").SetLevel(LogLevel.Info).Build();
+
+// File logger with custom name and custom level
+ILogger Log = LoggerManager.GetLoggerBuilder(LoggerType.File).SetName("LoggerName").SetLevel(LogLevel.Debug).Build();
 ```
 
-Initialization using any object. In this case Logger's name will be equal to type name of used object.
+### Use object extensions
 ```
-ILogger Log = Logger.Logger.GetLogger(this);
-ILogger Log = Logger.Logger.GetLogger(anyObject);
-```
+// Default logger with name equel to type of used object
+ILogger Log = myObject.GetLogger();
 
-This second way also could be simplified
-```
-ILogger Log = anyObject.GetLogger();
+// Default logger with custom name and custom level
+ILogger Log = myObject.GetLoggerBuilder().SetName("LoggerName").SetLevel(LogLevel.Error).Build();
+
+// Console logger with custom name and custom level
+ILogger Log = myObject.GetLoggerBuilder(LoggerType.Console).SetName("MyObjectConsoleLogger").SetLevel(LogLevel.Warning).Build();
+
+// Default logger with name equel to name of current class
 ILogger Log = this.GetLogger();
+
+// Default logger with name equel to name of current class and custom level
+ILogger Log = this.GetLoggerBuilder().SetLevel(LogLevel.Trace).Build();
+
+// File logger with name equel to name of current class and custom level
+ILogger Log = this.GetLoggerBuilder(LoggerType.File).SetLevel(LogLevel.Trace).Build();
 ```
+
+## How to use LoggerManager
+LoggerManager is responsible for instantiating new instances of ILogger.
+This class contains default type (LoggerType.File) and default level (LoggerType.Console) for all loggers.
+
+You can change them using the following methods
+```
+LoggerManager.SetType(LoggerType.File);
+LoggerManager.SetType(LoggerType.Console);
+
+LoggerManager.SetLevel(LogLevel.Info);
+```
+
 ## Default configuration
 ```
 {
@@ -58,12 +91,9 @@ ILogger Log = this.GetLogger();
 }
 ```
 
-
 ## Contacts
 Please contact [Alexander Ryabinin](mailto:ryabinin_alex@mail.ru?subject=[GitHub]%20Feedback%20or%suggestion)
 if you would share any feedback or suggestion. I would be appreciate it.
-
-Telegram: https://t.me/ryabinin_alex
 
 ## License
 Logger is licensed under the MIT license.

@@ -4,6 +4,8 @@ namespace Logger
 {
     public interface ILogger
     {
+        string Name { get; set; }
+        LogLevel Level { get; set; }
         void Trace(LogLevel level, string methodName, string formatString, params object[] args);
         void Trace(LogLevel level, string formatString, params object[] args);
         void Trace(string methodName, string formatString, params object[] args);

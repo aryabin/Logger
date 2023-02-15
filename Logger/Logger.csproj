@@ -13,8 +13,13 @@
     <PackageProjectUrl>https://github.com/aryabin/Logger</PackageProjectUrl>
     <Description>Lightwaight and ease to use logger for .Net</Description>
     <PackageTags>#Logger;#DotNet;.Net;Logger;File Logger;</PackageTags>
-    <Version>1.0.3</Version>
-    <PackageReleaseNotes>v1.0.3
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>v1.1.0
+    - Logger reworked
+    - Added console logger
+v1.0.4 (obsoleted, broken version)
+    - Performance improvement
+v1.0.3
     - Dependency on System.Text.Json has been removed
     - Some code improvements
 v1.0.2
