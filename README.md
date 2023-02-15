@@ -22,7 +22,7 @@ Please let me know if you are interesting in version for .Net Standard 2.1
 There are two ways to initialize Logger.
 
 ### Use static class LoggerManager
-```
+``` csharp
 // Default logger with custom name
 ILogger Log = LoggerManager.GetLogger("LoggerName");
 
@@ -37,7 +37,7 @@ ILogger Log = LoggerManager.GetLoggerBuilder(LoggerType.File).SetName("LoggerNam
 ```
 
 ### Use object extensions
-```
+``` csharp
 // Default logger with name equel to type of used object
 ILogger Log = myObject.GetLogger();
 
@@ -62,7 +62,7 @@ LoggerManager is responsible for instantiating new instances of ILogger.
 This class contains default type (LoggerType.File) and default level (LoggerType.Console) for all loggers.
 
 You can change them using the following methods
-```
+``` csharp
 LoggerManager.SetType(LoggerType.File);
 LoggerManager.SetType(LoggerType.Console);
 
